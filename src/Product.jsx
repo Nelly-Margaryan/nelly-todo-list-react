@@ -4,6 +4,8 @@ import {Price} from "./Price";
 import {Description} from "./Description";
 
 
+
+
 class Product extends Component {
     constructor(props){
         super(props);
@@ -18,4 +20,5 @@ class Product extends Component {
 }
 
 export default Product;
+
 
