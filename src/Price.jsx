@@ -1,13 +1,12 @@
 import { Component } from "react";
 
 export class Price extends Component{
-    constructor(props){
-        super(props);
-    }
 
     render (){
+        const {text} = this.props;
+        
         return (
-            <p> price = "{this.props.price}"</p>
+            <span>{text}</span>
         );
     }
 }

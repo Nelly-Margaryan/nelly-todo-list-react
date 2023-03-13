@@ -7,13 +7,17 @@ import {Description} from "./Description";
 
 
 class Product extends Component {
-    constructor(props){
-        super(props);
-    }
 
     render(){
+        const {name, price, description} = this.props;
+        
         return (
-            <h3><Name name = "bananas"/> <Price price = "1$" /> <Description description = "Fresh bananas from Ecuador" /></h3>
+            <div>
+                <Name text = {name}/> :  
+                <Price text = {price}/> :  
+                <Description text = {description}/>
+                <hr />
+            </div>
         );
         
     }
