@@ -13,8 +13,8 @@ class Product extends Component {
         
         return (
             <div>
-                <Name text = {name}/> :  
-                <Price text = {price}/> :  
+                <Name text = {name}/>  
+                <Price text = {price}/>  
                 <Description text = {description}/>
                 <hr />
             </div>

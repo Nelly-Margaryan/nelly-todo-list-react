@@ -10,19 +10,19 @@ function App() {
 
         <Product 
         name = "bananas " 
-        price = " 1$ " 
+        price = " 1 " 
         description = " Fresh bananas from Ecuador" 
         />
         
         <Product 
         name = "apples " 
-        price = " 5$ " 
+        price = " 5 " 
         description = " Apples from Armenia" 
         />
 
         <Product 
         name = "mango " 
-        price = " 3$ " 
+        price = " 3 " 
         description = " Mangos from Philippines" 
         />
 

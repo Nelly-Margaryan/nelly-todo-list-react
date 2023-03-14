@@ -6,7 +6,7 @@ export class Description extends Component{
         const {text} = this.props;
 
         return (
-            <span>{text}</span>
+            <div> Description: {text}</div>
         );
     }
 }
