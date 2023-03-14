@@ -1,31 +1,17 @@
 import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
-import Product from './Product';
+import ToDo from './ToDo-List';
+import {Task} from "./ToDo-List";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <Product 
-        name = "bananas " 
-        price = " 1 " 
-        description = " Fresh bananas from Ecuador" 
-        />
         
-        <Product 
-        name = "apples " 
-        price = " 5 " 
-        description = " Apples from Armenia" 
-        />
-
-        <Product 
-        name = "mango " 
-        price = " 3 " 
-        description = " Mangos from Philippines" 
-        />
-
+        <ToDo />
+        <Task />
 
 
 
