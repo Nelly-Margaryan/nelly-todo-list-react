@@ -106,18 +106,12 @@ class ToDo extends Component {
                 <Row className="justify-content-center">
                     <Col xs="10" sm="8" md="6">
                         <InputGroup className="mb-3 mt-4">
-                            {/* <div> */}
                             <Form.Control
                                 placeholder="Task title"
                                 onChange={this.handleInputChange}
                                 onKeyDown={this.handleInputKeyDown}
                                 value={this.state.newTaskTitle}
                             />
-                            {/* <Form.Control
-                                as="textarea"
-                                style={{ height: '100px' }}
-                                /> */}
-                            {/* </div> */}
                             <Button
                                 variant="success"
                                 onClick={this.addNewTask}
