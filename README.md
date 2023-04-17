@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+Copy the file `.env.sample`, remove the `.sample` extension from configuration file and change the variables inside according to your environment․
+    ```sh
+    .env.sample -> .env
+    ```
+
 ## Available Scripts
 
 In the project directory, you can run:

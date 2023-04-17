@@ -1,4 +1,5 @@
 import {memo} from "react";
+import PropTypes from "prop-types";
 import { Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -17,7 +18,7 @@ function Task(props) {
                         <Card.Title>{task.title}</Card.Title>
                         <Form.Check 
                         className={styles.checkboxTask} 
-                        onClick= {()=> props.onTaskSelect(task.id)}
+                        onClick= {()=> props.onTaskSelect(task._id)}
                         />
                     </div>
 
@@ -32,7 +33,7 @@ function Task(props) {
                         </Button>
                         <Button 
                         variant="danger"
-                        onClick={()=> props.onTaskDelete(task.id)}
+                        onClick={()=> props.onTaskDelete(task._id)}
                         >
                             <FontAwesomeIcon icon={faTrashCan} />
 
@@ -48,4 +49,9 @@ function Task(props) {
 
 }
 
+Task.propTypes = {
+    data: PropTypes.object.isRequired,
+    onTaskDelete: PropTypes.func.isRequired,
+    onTaskSelect: PropTypes.func.isRequired,
+}
 export default memo(Task);

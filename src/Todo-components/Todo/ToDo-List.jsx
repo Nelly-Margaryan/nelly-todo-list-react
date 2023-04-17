@@ -1,144 +1,156 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import Task from "../Task/Task";
 import { Container, Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { idGenerator } from "../../utils/helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import styles from "./todo.module.css";
+import ConfirmDialog from "./ConfirmDialog";
+import DeleteSelected from "../DeleteSelected/DeleteSelected";
+import TaskApi from "../../api/taskApi";
 
+const taskApi = new TaskApi();
 
-class ToDo extends Component {
+function ToDo() {
 
-    state = {
-        tasks: [],
-        newTaskTitle: "",
-        selectedTasks: new Set(),
+    const [tasks, setTasks] = useState([]);
+    const [newTaskTitle, setNewTaskTitle] = useState("");
+    const [selectedTasks, setSelectedTasks] = useState(new Set());
+    const [taskToDelete, setTaskToDelete] = useState(null);
+
+    useEffect(() => {
+        taskApi.getAll().then((tasks) => {
+            setTasks(tasks);
+        });
+    }, [])
+
+    const handleInputChange = (event) => {
+        setNewTaskTitle(event.target.value);
     }
 
-    handleInputChange = (event) => {
-        const newTaskTitle = event.target.value;
-        this.setState({ newTaskTitle });
-    }
-
-    handleInputKeyDown = (event) => {
+    const handleInputKeyDown = (event) => {
         if (event.key === "Enter") {
-            this.addNewTask();
+            addNewTask();
         }
     }
 
-    addNewTask = () => {
-        const trimedTitle = this.state.newTaskTitle.trim();
+    const addNewTask = () => {
+        const trimedTitle = newTaskTitle.trim();
         if (!trimedTitle) {
             return;
         }
+
         const newTask = {
-            id: idGenerator(),
             title: trimedTitle,
         }
-        const tasks = [...this.state.tasks];
-        tasks.push(newTask);
-        this.setState({
-            tasks,
-            newTaskTitle: "",
-        });
-    }
 
-    onTaskDelete = (taskId) => {
-        const { selectedTasks, tasks } = this.state;
-        const newTasks = tasks.filter((task) => task.id !== taskId);
-        const newState = {tasks: newTasks,}
-        
+        taskApi.add(newTask)
+            .then((task) => {
+                const tasksCopy = [...tasks];
+                tasksCopy.push(task);
+                setTasks(tasksCopy);
+                setNewTaskTitle("");
+            });
+    };
+
+    const onTaskDelete = (taskId) => {
+        const newTasks = tasks.filter((task) => task._id !== taskId);
+        setTasks(newTasks);
+
         if (selectedTasks.has(taskId)) {
             const newSelectedTasks = new Set(selectedTasks);
             newSelectedTasks.delete(taskId);
-            newState.selectedTasks = newSelectedTasks;
+            setSelectedTasks(newSelectedTasks);
         }
-        this.setState(newState)
     }
 
 
-    onTaskSelect = (taskId) => {
-        const selectedTasks = new Set(this.state.selectedTasks);
-        if (selectedTasks.has(taskId)) {
-            selectedTasks.delete(taskId);
+    const onTaskSelect = (taskId) => {
+        const selectedTasksCopy = new Set(selectedTasks);
+        if (selectedTasksCopy.has(taskId)) {
+            selectedTasksCopy.delete(taskId);
         } else {
-            selectedTasks.add(taskId);
+            selectedTasksCopy.add(taskId);
         }
-        this.setState({
-            selectedTasks,
-        })
+        setSelectedTasks(selectedTasksCopy);
     }
 
-    deleteSelectedTasks = () => {
+    const deleteSelectedTasks = () => {
         const newTasks = [];
-        const { selectedTasks, tasks } = this.state;
+
         tasks.forEach((task) => {
-            if (!selectedTasks.has(task.id)) {
+            if (!selectedTasks.has(task._id)) {
                 newTasks.push(task);
             }
         });
-        this.setState({
-            tasks: newTasks,
-            selectedTasks: new Set(),
-        });
+        setTasks(newTasks);
+        setSelectedTasks(new Set());
     }
 
-    render() {
-        const tasksJsx = this.state.tasks.map((task) => {
-            return (
-                <Task
-                    data={task}
-                    key={task.id}
-                    onTaskDelete={this.onTaskDelete}
-                    onTaskSelect={this.onTaskSelect}
-                />
-            );
-        })
 
-        const isAddNewTaskButtonDisabled = this.state.newTaskTitle.trim() === "";
-
+    const tasksJsx = tasks.map((task) => {
         return (
-            <Container>
-                <Row className="justify-content-center">
-                    <Col xs="10" sm="8" md="6">
-                        <InputGroup className="mb-3 mt-4">
-                            <Form.Control
-                                placeholder="Task title"
-                                onChange={this.handleInputChange}
-                                onKeyDown={this.handleInputKeyDown}
-                                value={this.state.newTaskTitle}
-                            />
-                            <Button
-                                variant="success"
-                                onClick={this.addNewTask}
-                                disabled={isAddNewTaskButtonDisabled}
-                            >
-                                <FontAwesomeIcon icon={faPlus} />
-                                Add
-                            </Button>
-                        </InputGroup>
-
-                    </Col>
-                </Row>
-                <Row>
-                    {tasksJsx}
-                </Row>
-                <Button
-                    variant="dark"
-                    className={styles.deleteSelected}
-                    onClick={this.deleteSelectedTasks}
-                    disabled={!this.state.selectedTasks.size}
-                >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                    Delete Selected
-                </Button>
-            </Container>
+            <Task
+                data={task}
+                key={task._id}
+                onTaskDelete={setTaskToDelete}
+                onTaskSelect={onTaskSelect}
+            />
         );
-    }
+    })
+
+
+    const isAddNewTaskButtonDisabled = newTaskTitle.trim() === "";
+
+    return (
+        <Container>
+            <Row className="justify-content-center">
+                <Col xs="10" sm="8" md="6">
+                    <InputGroup className="mb-3 mt-4">
+                        <Form.Control
+                            placeholder="Task title"
+                            onChange={handleInputChange}
+                            onKeyDown={handleInputKeyDown}
+                            value={newTaskTitle}
+                        />
+                        <Button
+                            variant="success"
+                            onClick={addNewTask}
+                            disabled={isAddNewTaskButtonDisabled}
+                        >
+                            <FontAwesomeIcon icon={faPlus} />
+                            Add
+                        </Button>
+                    </InputGroup>
+
+                </Col>
+            </Row>
+            <Row>
+                {tasksJsx}
+            </Row>
+
+            <DeleteSelected
+                disabled={!selectedTasks.size}
+                tasksCount={selectedTasks.size}
+                onSubmit={deleteSelectedTasks}
+            />
+            {taskToDelete &&
+                <ConfirmDialog
+                    tasksCount={1}
+                    onCancel={() => { setTaskToDelete(null) }}
+                    onSubmit={() => {
+                        onTaskDelete(taskToDelete);
+                        setTaskToDelete(null);
+                    }}
+
+                />}
+                
+
+        </Container>
+
+    );
+
 }
 export default ToDo;
 
