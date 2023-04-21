@@ -1,4 +1,9 @@
+body {
+  background-color: #faebd785;
+}
+
 main {
   max-width: 1440px;
   margin: 0 auto; 
+  
 }
