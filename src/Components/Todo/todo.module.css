@@ -1,0 +1,11 @@
+.bgFooter{
+    background-color: #d9dfda;
+}
+
+.filterView{
+height: 250px;
+}
+
+.filterView>col{
+    width: 100%;
+}

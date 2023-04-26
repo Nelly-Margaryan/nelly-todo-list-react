@@ -15,3 +15,25 @@
 .checkboxTask input:hover{
     cursor: pointer;
   }
+
+.bold{
+  font-weight: bold;
+}
+
+.distance{
+ margin: 1px;
+}
+
+.truncateText{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btnSize{
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

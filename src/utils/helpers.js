@@ -1,4 +1,10 @@
 
-export function idGenerator (){
-    return Math.random().toString(36) + Math.random().toString(36);
+export function formatDate (date){
+    if(date instanceof Date){
+        return date.toISOString().slice(0, 10); 
+    }
+    if(typeof date === "string"){
+        return date.slice(0, 10);
+    }
+    return "";
 }

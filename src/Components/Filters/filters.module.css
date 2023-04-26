@@ -1,0 +1,25 @@
+.sizeFilter{
+    width: 90%;
+}
+.bgFilter{
+    background-color: #c5d1c89c;
+}
+.bgFilter>button{
+    background-color: #c5d1c8;
+}
+.bgFilter button form{
+    opacity: 0.5;
+}
+.form{
+    width: calc(100% - 40px);
+}
+
+.filterItem{
+    font-size: 10px;
+}
+.filterItem>legend{
+    font-size: 15px;
+    margin: 3px 0;
+}
+
+
