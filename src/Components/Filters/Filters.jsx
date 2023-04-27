@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
-import { formatDate } from "../../Utils/helpers";
+import { formatDate } from "../../utils/helpers";
 import styles from "./filters.module.css";
 
 
@@ -125,7 +125,7 @@ function Filters(props) {
                             {dateOptions.map((dateOption) => {
                                 const dateValue = dateFilters[dateOption.value];
                                 return (
-                                    <Col sm="6" md="4" lg="3"
+                                    <Col sm="6" md="6" lg="3"
                                         className="text-center"
                                         key={dateOption.label}
                                     >

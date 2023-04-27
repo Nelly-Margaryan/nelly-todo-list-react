@@ -6,18 +6,18 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPenToSquare, faTrashCan, faHistory } from '@fortawesome/free-solid-svg-icons';
-import { formatDate } from "../../Utils/helpers";
+import { formatDate } from "../../utils/helpers";
 import styles from "./task.module.css";
 
 function Task(props) {
     const task = props.data;
 
     return (
-        <Col xs="12" sm="6" md="4" lg="3">
+        <Col xs="9" sm="6" md="4" lg="3">
             <Card className="mb-2 mt-2">
                 <Card.Body>
                     <div className={styles.oneLine}>
-                        <Card.Title className={styles.truncateText}>{task.title}</Card.Title>
+                        <Card.Title className={styles.truncateText}>{props.number}. {task.title}</Card.Title>
                         <Form.Check
                             className={styles.checkboxTask}
                             onChange={() => props.onTaskSelect(task._id)}
@@ -61,10 +61,8 @@ function Task(props) {
                             <FontAwesomeIcon icon={faTrashCan} />
                         </Button>
                     </div>
-
                 </Card.Body>
             </Card>
-
         </Col>
     );
 

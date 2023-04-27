@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-import {formatDate} from "../../Utils/helpers";
+import { formatDate } from "../../utils/helpers";
 import styles from "./taskModal.module.css";
 
 function TaskModal(props) {
@@ -13,16 +13,15 @@ function TaskModal(props) {
     const [date, setDate] = useState(new Date());
     const [isTitleValid, setIsTitleValid] = useState(false);
 
-
-    useEffect(()=>{
-        const {data} = props;
-        if(data){
+    useEffect(() => {
+        const { data } = props;
+        if (data) {
             setTitle(data.title);
             setDescription(data.description);
             setDate(data.date ? new Date(data.date) : new Date());
             setIsTitleValid(true);
         }
-    },[props]);
+    }, [props]);
 
     const saveTask = () => {
         const newTask = {
@@ -30,39 +29,38 @@ function TaskModal(props) {
             description: description.trim(),
             date: formatDate(date),
         }
-        if(props.data){
+        if (props.data) {
             newTask._id = props.data._id;
         }
         props.onSave(newTask);
     }
 
     const onTitleChange = (event) => {
-            const { value } = event.target;
-            const trimedTitle = value.trim();
-            setIsTitleValid(!!trimedTitle);
-            setTitle(value);
+        const { value } = event.target;
+        const trimedTitle = value.trim();
+        setIsTitleValid(!!trimedTitle);
+        setTitle(value);
     }
 
-
-    useLayoutEffect(()=>{
-        const keydownHandler = (event)=>{
-            const {key, ctrlKey, metaKey} = event;
-            if(key === "s" && (ctrlKey || metaKey)){
+    useLayoutEffect(() => {
+        const keydownHandler = (event) => {
+            const { key, ctrlKey, metaKey } = event;
+            if (key === "s" && (ctrlKey || metaKey)) {
                 event.preventDefault();
                 saveTask();
             }
         }
         document.addEventListener("keydown", keydownHandler);
-        return ()=>{
+        return () => {
             document.removeEventListener("keydown", keydownHandler);
         };
         // eslint-disable-next-line
-    },[title, description, date])
+    }, [title, description, date])
 
 
     return (
         <Modal
-            size="sm"
+            size="md"
             show={true}
             onHide={props.onCancel}
         >
@@ -86,10 +84,11 @@ function TaskModal(props) {
                 />
                 <h6 className={styles.italic}>Deadline:</h6>
                 <DatePicker
+                className={styles.lineLength}
                     showIcon
                     selected={date}
-                    onChange={setDate} 
-                    />
+                    onChange={setDate}
+                />
             </Modal.Body>
             <Modal.Footer>
                 <div className="d-flex justify-content-evenly gap-2">
@@ -103,7 +102,6 @@ function TaskModal(props) {
                         onClick={props.onCancel}
                     > Cancel </Button>
                 </div>
-
             </Modal.Footer>
         </Modal>
     );

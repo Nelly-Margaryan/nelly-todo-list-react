@@ -2,10 +2,6 @@
     background-color: #d9dfda;
 }
 
-.filterView{
-height: 250px;
-}
-
-.filterView>col{
-    width: 100%;
+.btnCheck{
+    margin-top: 10px;
 }

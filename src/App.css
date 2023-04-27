@@ -7,3 +7,10 @@ main {
   margin: 0 auto; 
   
 }
+
+@media (max-width: 768px){
+  .modal{
+    width: 70%;
+    margin-left: 15%;
+  }
+}

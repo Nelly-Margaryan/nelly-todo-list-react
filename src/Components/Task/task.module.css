@@ -1,11 +1,3 @@
-/* .task-block{
-    background-color: #6e8fca54;
-    width: 20%;
-    margin: 20px 10px;
-    padding: 10px 10px 20px;
-    
-  } */
-
 .oneLine {
     display: flex;
     justify-content: space-between;
@@ -28,6 +20,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: 25px;
 }
 
 .btnSize{

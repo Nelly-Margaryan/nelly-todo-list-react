@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
-import Task from "../Task/Task";
+import Task from "../task/Task";
 import { Container, Row, Col, Navbar } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare, faSquareFull, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import DeleteSelected from "../DeleteSelected/DeleteSelected";
-import NavBar from "../NavBar/NavBar";
-import Filters from "../Filters/Filters";
-import TaskApi from "../../Api/taskApi";
-import TaskModal from "../TaskModal/TaskModal";
+import ConfirmDialog from "../confirmDialog/ConfirmDialog";
+import DeleteSelected from "../deleteSelected/DeleteSelected";
+import NavBar from "../navBar/NavBar";
+import Filters from "../filters/Filters";
+import TaskApi from "../../api/taskApi";
+import TaskModal from "../taskModal/TaskModal";
 import styles from "./todo.module.css";
 
 const taskApi = new TaskApi();
 
 function ToDo() {
-
     const [tasks, setTasks] = useState([]);
     const [selectedTasks, setSelectedTasks] = useState(new Set());
     const [taskToDelete, setTaskToDelete] = useState(null);
@@ -72,7 +71,6 @@ function ToDo() {
             });
     }
 
-
     const onTaskSelect = (taskId) => {
         const selectedTasksCopy = new Set(selectedTasks);
         if (selectedTasksCopy.has(taskId)) {
@@ -103,17 +101,14 @@ function ToDo() {
             });
     }
 
-
     const selectAllTasks = () => {
         const taskIds = tasks.map((task) => task._id);
         setSelectedTasks(new Set(taskIds));
     }
 
-
     const resetSelectedTasks = () => {
         setSelectedTasks(new Set());
     }
-
 
     const onEditTask = (editedTask) => {
         taskApi
@@ -136,9 +131,10 @@ function ToDo() {
     };
 
 
-    const tasksJsx = tasks.map((task) => {
+    const tasksJsx = tasks.map((task, index) => {
         return (
             <Task
+                number={index+1}
                 data={task}
                 key={task._id}
                 onTaskDelete={setTaskToDelete}
@@ -150,72 +146,51 @@ function ToDo() {
         );
     })
 
-
     return (
         <>
             <NavBar />
-
             <Container>
-                <Row className={styles.filterView}>
-                    <Col sm="2">
-                        <Button
-                            className="mt-1"
-                            variant="success"
-                            onClick={() => setIsAddTaskModalOpen(true)}
-                        >
-                            <FontAwesomeIcon className="me-2" icon={faSquarePlus} />
-                            Add new task
-                        </Button>
+                <Row>
+                    <Col sm="3" md="2">
+                        <div>
+                            <Button
+                                className="mt-1"
+                                variant="success"
+                                onClick={() => setIsAddTaskModalOpen(true)}
+                            >
+                                <FontAwesomeIcon className="me-2" icon={faSquarePlus} />
+                                Add new task
+                            </Button>
+                        </div>
                     </Col>
-                    <Col sm="10">
+                    <Col sm="9" md="10">
                         <Filters onFilter={onFilter} />
                     </Col>
                 </Row>
-                <Row className="justify-content-start"></Row>
-                <Button
-                    className="mb-1"
-                    variant="secondary"
-                    onClick={selectAllTasks}
-                >
-                    <FontAwesomeIcon className="me-2" icon={faCheckSquare} />
-                    Select All
-                </Button>{" "}
-                <Button
-                    className="mb-1"
-                    variant="outline-secondary"
-                    onClick={resetSelectedTasks}
-                >
-                    <FontAwesomeIcon className="me-2" icon={faSquareFull} />
-                    Reset selected
-                </Button>
 
+                <Row>
+                    <Col>
+                        <div className={styles.btnCheck}>
+                            <Button
+                                className="mb-1"
+                                variant="secondary"
+                                onClick={selectAllTasks}
+                            >
+                                <FontAwesomeIcon className="me-2" icon={faCheckSquare} />
+                                Select All
+                            </Button>{" "}
+                            <Button
+                                className="mb-1"
+                                variant="outline-secondary"
+                                onClick={resetSelectedTasks}
+                            >
+                                <FontAwesomeIcon className="me-2" icon={faSquareFull} />
+                                Reset selected
+                            </Button>
+                        </div>
+                    </Col>
+                </Row>
 
-                {/* <Col xs="10" sm="4" md="3"> */}
-                {/* <InputGroup className="mb-1 mt-1"> */}
-                {/* <Button */}
-                {/* variant="secondary" */}
-                {/* onClick={selectAllTasks} */}
-                {/* > */}
-                {/* <FontAwesomeIcon className="me-2" icon={faCheckSquare} /> */}
-                {/* Select All */}
-                {/* </Button> */}
-                {/* </InputGroup> */}
-                {/*  */}
-                {/* </Col> */}
-                {/* <Col xs="10" sm="4" md="3"> */}
-                {/* <InputGroup className="mb-1 mt-1"> */}
-                {/*  */}
-                {/* <Button */}
-                {/* variant="outline-secondary" */}
-                {/* onClick={resetSelectedTasks} */}
-                {/* > */}
-                {/* <FontAwesomeIcon className="me-2" icon={faSquareFull} /> */}
-                {/* Reset selected */}
-                {/* </Button> */}
-                {/* </InputGroup> */}
-                {/*  */}
-                {/* </Col> */}
-                {/* </Row> */}
                 <Row>
                     {tasksJsx}
                 </Row>
@@ -258,7 +233,6 @@ function ToDo() {
                 />
             </Container>
 
-
             <Container>
                 <Navbar className={styles.bgFooter} fixed="bottom" >
                     <Container className="justify-content-end">
@@ -273,12 +247,7 @@ function ToDo() {
                 </Navbar>
             </Container>
         </>
-
-
-
-
     );
-
 }
 export default ToDo;
 
