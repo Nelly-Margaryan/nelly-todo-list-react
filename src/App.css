@@ -1,9 +1,17 @@
 body {
-  background-color: #faebd785;
+  background-color: #c8d0c9ad;
 }
 
 main {
   max-width: 1440px;
   margin: 0 auto; 
   
+}
+
+@media (max-width: 768px){
+  .modal{
+    width: 70%;
+    margin-left: 15%;
+  }
+
 }
