@@ -14,14 +14,4 @@ main {
     margin-left: 15%;
   }
 
-  .sizeFilter{
-    width: 70%;
-  }
-  .btnOnlyIcon{
-    display: block;
-  }
-
-  .btnAddAndIcon{
-    display: none;
-  }
 }
