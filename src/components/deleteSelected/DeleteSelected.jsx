@@ -14,6 +14,7 @@ function DeleteSelected(props) {
         <>
             <Button
                 variant="dark"
+                className="mb-1"
                 onClick={toggleConfirmDialod}
                 disabled={props.disabled}
             >

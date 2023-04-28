@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Task from "../Task/Task";
-import { Container, Row, Col, Navbar } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare, faSquareFull, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
@@ -152,7 +152,7 @@ function ToDo() {
             <Container>
                 <Row>
                     <Col sm="3" md="2">
-                        <div>
+                        <div className={styles.addBtn}>
                             <Button
                                 className="mt-1"
                                 variant="success"
@@ -186,7 +186,12 @@ function ToDo() {
                             >
                                 <FontAwesomeIcon className="me-2" icon={faSquareFull} />
                                 Reset selected
-                            </Button>
+                            </Button>{" "} 
+                            <DeleteSelected
+                                disabled={!selectedTasks.size}
+                                tasksCount={selectedTasks.size}
+                                onSubmit={deleteSelectedTasks}
+                            />
                         </div>
                     </Col>
                 </Row>
@@ -233,19 +238,19 @@ function ToDo() {
                 />
             </Container>
 
-            <Container>
-                <Navbar className={styles.bgFooter} fixed="bottom" >
-                    <Container className="justify-content-end">
-                        <Navbar.Brand>
-                            <DeleteSelected
-                                disabled={!selectedTasks.size}
-                                tasksCount={selectedTasks.size}
-                                onSubmit={deleteSelectedTasks}
-                            />
-                        </Navbar.Brand>
-                    </Container>
-                </Navbar>
-            </Container>
+            {/* <Container> */}
+                {/* <Navbar className={styles.bgFooter} fixed="bottom" > */}
+                    {/* <Container className="justify-content-end"> */}
+                        {/* <Navbar.Brand> */}
+                            {/* <DeleteSelected */}
+                                {/* disabled={!selectedTasks.size} */}
+                                {/* tasksCount={selectedTasks.size} */}
+                                {/* onSubmit={deleteSelectedTasks} */}
+                            {/* /> */}
+                        {/* </Navbar.Brand> */}
+                    {/* </Container> */}
+                {/* </Navbar> */}
+            {/* </Container> */}
         </>
     );
 }
