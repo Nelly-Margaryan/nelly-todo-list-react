@@ -1,4 +1,4 @@
-import { useState, memo, useLayoutEffect, useEffect } from 'react';
+import { useState, memo, useLayoutEffect, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +12,21 @@ function TaskModal(props) {
     const [description, setDescription] = useState("");
     const [date, setDate] = useState(new Date());
     const [isTitleValid, setIsTitleValid] = useState(false);
+    const titleRef = useRef(null);
+    const descriptionRef = useRef(null);
+
+    useEffect(()=>{
+        titleRef.current.focus();
+    }, []);
+
+    const handleClick = (event) => {
+        const {key} = event;
+        if(title && key === "Enter"){
+            event.preventDefault();
+            descriptionRef.current.focus();
+        }
+    }
+    
 
     useEffect(() => {
         const { data } = props;
@@ -40,6 +55,7 @@ function TaskModal(props) {
         const trimedTitle = value.trim();
         setIsTitleValid(!!trimedTitle);
         setTitle(value);
+        const {key} = event;
     }
 
     useLayoutEffect(() => {
@@ -57,6 +73,7 @@ function TaskModal(props) {
         // eslint-disable-next-line
     }, [title, description, date])
 
+    const modalTitle = props.data ? "Edit task" : "Add new task";
 
     return (
         <Modal
@@ -65,7 +82,7 @@ function TaskModal(props) {
             onHide={props.onCancel}
         >
             <Modal.Header closeButton>
-                <Modal.Title> Add new task </Modal.Title>
+                <Modal.Title> {modalTitle} </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form.Control
@@ -73,6 +90,8 @@ function TaskModal(props) {
                     className={!isTitleValid ? styles.invalid : ""}
                     value={title}
                     onChange={onTitleChange}
+                    ref={titleRef}
+                    onKeyDown={handleClick}
                 />
                 <Form.Control
                     placeholder="Description"
@@ -80,6 +99,7 @@ function TaskModal(props) {
                     rows={4}
                     className='mt-3 mb-3'
                     value={description}
+                    ref={descriptionRef}
                     onChange={(event) => setDescription(event.target.value)}
                 />
                 <h6 className={styles.italic}>Deadline:</h6>

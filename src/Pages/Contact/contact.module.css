@@ -1,0 +1,38 @@
+div.fill {
+    display: flex;
+    justify-content: center;
+    margin-top: 20vh;
+}
+
+.contactPageTitle {
+    margin-bottom: 5vh;
+}
+
+.contactForm {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.textInput,
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    max-width: 500px;
+}
+
+.submit {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    max-width: 200px;
+}
+
+.errorMessage,
+.invalid {
+    border: 1px solid #f00;
+}

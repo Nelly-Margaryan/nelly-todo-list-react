@@ -4,6 +4,7 @@ import { Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPenToSquare, faTrashCan, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../../Utils/helpers";
@@ -28,21 +29,24 @@ function Task(props) {
                     <Card.Text className={styles.distance}><b>Status: </b>{task.status}</Card.Text>
                     <Card.Text className={styles.distance}><b>Created at: </b>{formatDate(task.created_at)}</Card.Text>
                     <Card.Text className={styles.distance}><b>Deadline: </b>{formatDate(task.date)}</Card.Text>
+                    <Link to={`/task/${task._id}`}>
+                        <Card.Text className={styles.linkView}>Show more ...</Card.Text>
+                    </Link>
                     <div className="d-grid gap-2 mt-3 d-flex justify-content-end">
                         {
-                            task.status === 'active' ?
+                            task.status === "active" ?
                                 <Button
                                     className={styles.btnSize}
                                     title="Mark as done"
                                     variant="success"
-                                    onClick={() => props.onStatusChange({ status: 'done', _id: task._id })}>
+                                    onClick={() => props.onStatusChange({ status: "done", _id: task._id })}>
                                     <FontAwesomeIcon icon={faCheck} />
                                 </Button> :
                                 <Button
                                     className={styles.btnSize}
                                     title="Mark as active"
                                     variant="info"
-                                    onClick={() => props.onStatusChange({ status: 'active', _id: task._id })}>
+                                    onClick={() => props.onStatusChange({ status: "active", _id: task._id })}>
                                     <FontAwesomeIcon icon={faHistory} />
                                 </Button>
                         }

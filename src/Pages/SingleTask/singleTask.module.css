@@ -1,0 +1,30 @@
+.singleTaskPageView{
+    min-height: calc(100vh - 50px);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.singleTaskContainer{
+    background-color: #b4beb59c;
+    border-radius: 30px;
+    border: 7px outset ;
+    padding: 23px;
+}
+
+.singleTaskContainer p{
+    margin-bottom: 7px;
+}
+
+p::first-letter{
+    text-transform: uppercase;
+}
+
+.singleTaskTitle::first-letter{
+    text-transform: uppercase;
+}
+
+.alignText{
+    text-align: justify;
+}

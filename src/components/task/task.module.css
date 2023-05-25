@@ -8,12 +8,15 @@
     cursor: pointer;
   }
 
-.bold{
-  font-weight: bold;
-}
-
 .distance{
  margin: 1px;
+}
+
+.linkView{
+  font-style: italic;
+  color: #000000f2;
+  text-decoration: underline;
+  text-decoration-color: #000000f2;
 }
 
 .truncateText{

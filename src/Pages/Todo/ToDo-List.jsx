@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import Task from "../Task/Task";
 import { Container, Row, Col } from "react-bootstrap";
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare, faSquareFull, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import { ToastContainer, toast } from 'react-toastify';
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import DeleteSelected from "../DeleteSelected/DeleteSelected";
-import NavBar from "../NavBar/NavBar";
-import Filters from "../Filters/Filters";
+import { useDispatch, useSelector } from "react-redux";
+import Task from "../../Components/Task/Task";
+import ConfirmDialog from "../../Components/ConfirmDialog/ConfirmDialog";
+import DeleteSelected from "../../Components/DeleteSelected/DeleteSelected";
+import Filters from "../../Components/Filters/Filters";
 import TaskApi from "../../Api/taskApi";
-import TaskModal from "../TaskModal/TaskModal";
+import TaskModal from "../../Components/TaskModal/TaskModal";
+import { getTaskCount } from "../../Redux/Reducers/taskCount";
+import { setLoader } from "../../Redux/Reducers/isLoading";
 import styles from "./todo.module.css";
 
 const taskApi = new TaskApi();
@@ -22,14 +24,20 @@ function ToDo() {
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
     const [editableTask, setEditableTask] = useState(null);
 
+    const dispatch = useDispatch();
+    const count = useSelector((state) => state.taskCount.count);
 
     const getTasks = (filters) => {
+        dispatch(setLoader(true));
         taskApi.getAll(filters)
             .then((tasks) => {
                 setTasks(tasks);
             })
             .catch((err) => {
                 toast.error(err.message);
+            })
+            .finally(() => {
+                dispatch(setLoader(false))
             });
     };
 
@@ -37,7 +45,13 @@ function ToDo() {
         getTasks();
     }, []);
 
+    useEffect(() => {
+        dispatch(getTaskCount(tasks.length));
+
+    }, [tasks.length, dispatch]);
+
     const onAddNewTask = (newTask) => {
+        dispatch(setLoader(true));
         taskApi
             .add(newTask)
             .then((task) => {
@@ -49,10 +63,14 @@ function ToDo() {
             })
             .catch((err) => {
                 toast.error(err.message);
+            })
+            .finally(() => {
+                dispatch(setLoader(false))
             });
     };
 
     const onTaskDelete = (taskId) => {
+        dispatch(setLoader(true));
         taskApi
             .delete(taskId)
             .then(() => {
@@ -68,6 +86,9 @@ function ToDo() {
             })
             .catch((err) => {
                 toast.error(err.message);
+            })
+            .finally(() => {
+                dispatch(setLoader(false))
             });
     }
 
@@ -82,6 +103,7 @@ function ToDo() {
     }
 
     const deleteSelectedTasks = () => {
+        dispatch(setLoader(true));
         taskApi
             .deleteMany([...selectedTasks])
             .then(() => {
@@ -98,6 +120,9 @@ function ToDo() {
             })
             .catch((err) => {
                 toast.error(err.message);
+            })
+            .finally(() => {
+                dispatch(setLoader(false))
             });
     }
 
@@ -111,18 +136,22 @@ function ToDo() {
     }
 
     const onEditTask = (editedTask) => {
+        dispatch(setLoader(true));
         taskApi
             .update(editedTask)
             .then((task) => {
                 const newTasks = [...tasks];
                 const foundIndex = newTasks.findIndex((t) => t._id === task._id);
                 newTasks[foundIndex] = task;
-                toast.success(`Task have been edited successfully!`);
+                toast.success(`The task has been edited successfully!`);
                 setTasks(newTasks);
                 setEditableTask(null);
             })
             .catch((err) => {
                 toast.error(err.message);
+            })
+            .finally(() => {
+                dispatch(setLoader(false))
             });
     }
 
@@ -134,7 +163,7 @@ function ToDo() {
     const tasksJsx = tasks.map((task, index) => {
         return (
             <Task
-                number={index+1}
+                number={index + 1}
                 data={task}
                 key={task._id}
                 onTaskDelete={setTaskToDelete}
@@ -148,7 +177,6 @@ function ToDo() {
 
     return (
         <>
-            <NavBar />
             <Container>
                 <Row>
                     <Col sm="3" md="2">
@@ -186,12 +214,19 @@ function ToDo() {
                             >
                                 <FontAwesomeIcon className="me-2" icon={faSquareFull} />
                                 Reset selected
-                            </Button>{" "} 
+                            </Button>{" "}
                             <DeleteSelected
                                 disabled={!selectedTasks.size}
                                 tasksCount={selectedTasks.size}
                                 onSubmit={deleteSelectedTasks}
                             />
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className={styles.counter}>
+                            <p><i>Only tasks: {count}</i></p>
                         </div>
                     </Col>
                 </Row>
@@ -224,33 +259,7 @@ function ToDo() {
                         data={editableTask}
                     />
                 }
-                <ToastContainer
-                    position="bottom-left"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                />
             </Container>
-
-            {/* <Container> */}
-                {/* <Navbar className={styles.bgFooter} fixed="bottom" > */}
-                    {/* <Container className="justify-content-end"> */}
-                        {/* <Navbar.Brand> */}
-                            {/* <DeleteSelected */}
-                                {/* disabled={!selectedTasks.size} */}
-                                {/* tasksCount={selectedTasks.size} */}
-                                {/* onSubmit={deleteSelectedTasks} */}
-                            {/* /> */}
-                        {/* </Navbar.Brand> */}
-                    {/* </Container> */}
-                {/* </Navbar> */}
-            {/* </Container> */}
         </>
     );
 }
