@@ -1,0 +1,21 @@
+.bgFooter{
+    background-color: #d9dfda;
+}
+
+.btnCheck{
+    margin-top: 10px;
+}
+
+.addBtn Button{
+    height: 65px;
+}
+
+.counter{
+    font-size: 20px;
+    color: dimgrey;
+}
+
+.counter p{
+    margin-top: 15px;
+    margin-bottom: 0;
+}

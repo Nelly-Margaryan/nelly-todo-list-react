@@ -1,0 +1,19 @@
+.bgMenu{
+    background-color:#69837ade;
+}
+
+.navPages{
+    margin: 0 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2b443b;
+    text-decoration: none;
+}
+
+.navPages:hover{
+    color: #2b443bb3;
+}
+
+.active{
+    text-decoration: underline 3px #00000091;
+}

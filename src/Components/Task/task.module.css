@@ -1,0 +1,35 @@
+.oneLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkboxTask input:hover{
+    cursor: pointer;
+  }
+
+.distance{
+ margin: 1px;
+}
+
+.linkView{
+  font-style: italic;
+  color: #000000f2;
+  text-decoration: underline;
+  text-decoration-color: #000000f2;
+}
+
+.truncateText{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 25px;
+}
+
+.btnSize{
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
